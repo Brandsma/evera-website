@@ -1,0 +1,16 @@
+---
+import type { Copy } from '../../i18n/copy';
+interface Props { t: Copy }
+const { t } = Astro.props;
+---
+
+<div class="footer-wrap">
+  <div class="shell footer">
+    <div class="big">
+      {t.footer.bigLead} <span class="em">{t.footer.bigEm}</span>{t.footer.bigTail}
+    </div>
+    <div class="meta">{t.footer.meta[0]}</div>
+    <div class="meta" style="text-align: center">{t.footer.meta[1]}</div>
+    <div class="meta" style="text-align: right">{t.footer.meta[2]} →</div>
+  </div>
+</div>

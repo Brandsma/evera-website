@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/sections/Hero.astro';
+import Marquee from '../components/sections/Marquee.astro';
+import Manifesto from '../components/sections/Manifesto.astro';
+import Workshops from '../components/sections/Workshops.astro';
+import About from '../components/sections/About.astro';
+import Archive from '../components/sections/Archive.astro';
+import Voices from '../components/sections/Voices.astro';
+import Booking from '../components/Booking';
+import Foot from '../components/sections/Foot.astro';
+import Footer from '../components/sections/Footer.astro';
+import { COPY } from '../i18n/copy';
+
+const t = COPY.en;
+---
+
+<BaseLayout
+  lang="en"
+  title="Evera — Movement space for creatives · Utrecht & Bilthoven"
+  description="Evera is a space where movement becomes the source of artistic work. Small workshops in Utrecht & Bilthoven for writers, singers, painters, and makers."
+>
+  <Nav t={t} />
+  <main>
+    <Hero t={t} />
+    <Marquee items={t.marquee} />
+    <Manifesto t={t} />
+    <Workshops t={t} />
+    <About t={t} />
+    <Archive t={t} />
+    <Voices t={t} />
+    <Booking client:visible t={t} />
+    <Foot t={t} />
+    <Footer t={t} />
+  </main>
+</BaseLayout>
