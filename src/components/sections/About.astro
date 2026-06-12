@@ -1,6 +1,7 @@
 ---
 import type { Copy } from '../../i18n/copy';
 import { asset } from '../../lib/asset';
+
 interface Props { t: Copy }
 const { t } = Astro.props;
 ---
@@ -9,18 +10,12 @@ const { t } = Astro.props;
   <div class="shell">
     <div class="about-grid">
       <div class="about-portrait">
-        <img
-          src={asset('images/michelle-portrait.jpg')}
-          alt={t.about.portraitAlt}
-          loading="lazy"
-        />
-        <div class="caption">{t.about.portraitCaption}</div>
+        <img src={asset('images/michelle-portrait.jpg')} alt={t.about.portrait} loading="lazy" />
       </div>
       <div class="about-text">
         <span class="eyebrow">{t.about.eyebrow}</span>
         <h2>
-          {t.about.headLead} <span class="it">{t.about.headEm}</span>{' '}
-          {t.about.headMid} <span class="it">{t.about.headEm2}</span>{t.about.headTail}
+          {t.about.headLead} <span class="it">{t.about.headEm}</span> {t.about.headMid} <span class="it">{t.about.headEm2}</span>{t.about.headTail}
         </h2>
         {t.about.paragraphs.map(p => <p>{p}</p>)}
         <div class="creds">

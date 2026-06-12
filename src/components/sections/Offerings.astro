@@ -1,0 +1,36 @@
+---
+import type { Copy } from '../../i18n/copy';
+import Voices from './Voices.astro';
+
+interface Props { t: Copy }
+const { t } = Astro.props;
+---
+
+<section class="section offerings" id="offerings">
+  <div class="shell">
+    <div class="offerings-head">
+      <h2>
+        {t.offerings.headLead} <span class="it">{t.offerings.headEm}</span> {t.offerings.headTail}
+      </h2>
+      <div class="right">
+        <span class="eyebrow">{t.offerings.eyebrow}</span>
+        <p>{t.offerings.intro}</p>
+      </div>
+    </div>
+
+    <div class="offer-grid">
+      {t.offerings.list.map(o => (
+        <article class={`offer ${o.accent}`}>
+          <span class="k">{o.k}</span>
+          <h3>{o.title}</h3>
+          <span class="sub">{o.sub}</span>
+          <p>{o.desc}</p>
+        </article>
+      ))}
+    </div>
+
+    <p class="offer-close">{t.offerings.close}</p>
+
+    <Voices t={t} />
+  </div>
+</section>

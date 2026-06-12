@@ -1,0 +1,38 @@
+---
+import type { Copy } from '../../i18n/copy';
+import NewsletterForm from '../NewsletterForm';
+import ContactForm from '../ContactForm';
+import { SUBSTACK_URL, CONTACT_EMAIL } from '../../config';
+
+interface Props { t: Copy }
+const { t } = Astro.props;
+const c = t.contact;
+---
+
+<section class="section contact" id="contact">
+  <div class="shell">
+    <span class="eyebrow">{c.eyebrow}</span>
+    <h2>{c.headLead} <span class="it">{c.headEm}</span></h2>
+
+    <div class="contact-grid">
+      <div class="contact-col">
+        <h3>{c.newsletter.title}</h3>
+        <p>{c.newsletter.desc}</p>
+        <NewsletterForm client:visible labels={c.newsletter} />
+        <a class="substack-link" href={SUBSTACK_URL} target="_blank" rel="noopener noreferrer">
+          {c.newsletter.substack} <span>→</span>
+        </a>
+      </div>
+
+      <div class="contact-col">
+        <h3>{c.form.title}</h3>
+        <p>{c.form.desc}</p>
+        <ContactForm client:visible labels={c.form} />
+        <div class="contact-email">
+          <span class="k">{c.form.emailLabel}</span>
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

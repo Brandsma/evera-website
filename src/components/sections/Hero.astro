@@ -1,18 +1,14 @@
 ---
-import type { Copy } from '../../i18n/copy';
-import { asset } from '../../lib/asset';
-import HeroFigure from '../HeroFigure';
+import type { Copy, HeadPart } from '../../i18n/copy';
 import MorphBlob from '../MorphBlob';
 
 interface Props { t: Copy }
 const { t } = Astro.props;
-const lines = t.hero.headLines;
 
 // Pre-compute stagger delays for the kinetic headline
-type HeadPart = string | { it: string } | { accent: string };
 let counter = 0;
-const allParts = lines.map(line =>
-  (line as readonly HeadPart[]).map(part => {
+const allParts = t.hero.headLines.map(line =>
+  line.map((part: HeadPart) => {
     const delay = counter * 0.08;
     counter++;
     return { part, delay };
@@ -28,56 +24,30 @@ const allParts = lines.map(line =>
 
   <div class="hero-inner">
     <span class="eyebrow">{t.hero.eyebrow}</span>
-    <div class="hero-grid">
-      <div>
-        <h1 class="hero-headline">
-          {allParts.map((line, li) => (
-            <span style="display:block">
-              {line.map(({ part, delay }) => {
-                const isObj = typeof part !== 'string';
-                const text = isObj ? (('it' in part) ? part.it : ('accent' in part ? part.accent : '')) : part;
-                const isIt = isObj && 'it' in part;
-                const isAccent = isObj && 'accent' in part;
-                return (
-                  <span
-                    class={`word${isIt ? ' it' : ''}${isAccent ? ' accent' : ''}`}
-                    style={`animation-delay: ${0.1 + delay}s`}
-                  >{text}</span>
-                );
-              })}
-            </span>
-          ))}
-        </h1>
-        <p class="hero-sub">{t.hero.sub}</p>
-        <div class="hero-cta-row">
-          <a href="#workshops" class="btn">
-            {t.hero.ctaPrimary} <span class="arrow">→</span>
-          </a>
-          <a href="#about" class="btn ghost">{t.hero.ctaSecondary}</a>
-        </div>
-      </div>
-      <div class="hero-fig-card">
-        <HeroFigure client:load accent="#3d6464" ink="#5e3c22" />
-      </div>
-    </div>
-  </div>
-
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="n">{t.hero.stat1[0]}</div>
-      <div class="l">{t.hero.stat1[1]}</div>
-    </div>
-    <div class="hero-stat">
-      <div class="n">{t.hero.stat2[0]}</div>
-      <div class="l">{t.hero.stat2[1]}</div>
-    </div>
-    <div class="hero-stat">
-      <div class="n">{t.hero.stat3[0]}</div>
-      <div class="l">{t.hero.stat3[1]}</div>
-    </div>
-    <div class="hero-scroll">
-      <span>{t.hero.scroll}</span>
-      <span class="hero-scroll-line"></span>
+    <h1 class="hero-headline">
+      {allParts.map(line => (
+        <span style="display:block">
+          {line.map(({ part, delay }) => {
+            const isObj = typeof part !== 'string';
+            const text = isObj ? ('it' in part ? part.it : part.accent) : part;
+            const isIt = isObj && 'it' in part;
+            const isAccent = isObj && 'accent' in part;
+            return (
+              <span
+                class={`word${isIt ? ' it' : ''}${isAccent ? ' accent' : ''}`}
+                style={`animation-delay: ${0.1 + delay}s`}
+              >{text}</span>
+            );
+          })}
+        </span>
+      ))}
+    </h1>
+    <p class="hero-sub">{t.hero.sub}</p>
+    <div class="hero-cta-row">
+      <a href="#offerings" class="btn">
+        {t.hero.ctaPrimary} <span class="arrow">→</span>
+      </a>
+      <a href="#contact" class="btn ghost">{t.hero.ctaSecondary}</a>
     </div>
   </div>
 </section>

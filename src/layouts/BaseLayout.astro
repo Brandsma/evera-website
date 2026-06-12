@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title?: string;
@@ -9,9 +9,9 @@ interface Props {
 }
 
 const {
-  title = 'Evera — Movement space for creatives',
-  description = 'Evera is a space where movement becomes the source of artistic work. Small workshops in Utrecht & Bilthoven for writers, singers, painters, and makers.',
-  lang = 'en',
+  title = "Evera — Movement space for creatives",
+  description = "Evera is a space where dance and movement is used as a gateway to feeling and understanding.",
+  lang = "en",
   canonical,
 } = Astro.props;
 
@@ -21,30 +21,54 @@ const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
 
 <!doctype html>
 <html lang={lang}>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{title}</title>
-  <meta name="description" content={description} />
-  <link rel="canonical" href={canonicalURL} />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:url" content={canonicalURL} />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
 
-  <!-- Favicon -->
-  <link rel="icon" href={`${base}favicon.ico`} sizes="any" />
-  <link rel="icon" href={`${base}assets/evera-mark.svg`} type="image/svg+xml" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Hreflang for bilingual -->
-  {Astro.site && <>
-    <link rel="alternate" hreflang="en" href={new URL(import.meta.env.BASE_URL, Astro.site).href} />
-    <link rel="alternate" hreflang="nl" href={new URL(`${import.meta.env.BASE_URL}nl/`, Astro.site).href} />
-  </>}
-</head>
-<body>
-  <slot />
-</body>
+    <!-- Favicon -->
+    <link rel="icon" href={`${base}favicon.ico`} sizes="any" />
+    <link
+      rel="icon"
+      href={`${base}assets/evera-mark.svg`}
+      type="image/svg+xml"
+    />
+
+    <!-- Hreflang for bilingual -->
+    {
+      Astro.site && (
+        <>
+          <link
+            rel="alternate"
+            hreflang="en"
+            href={new URL(import.meta.env.BASE_URL, Astro.site).href}
+          />
+          <link
+            rel="alternate"
+            hreflang="nl"
+            href={new URL(`${import.meta.env.BASE_URL}nl/`, Astro.site).href}
+          />
+        </>
+      )
+    }
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>

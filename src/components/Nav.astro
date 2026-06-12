@@ -1,46 +1,43 @@
 ---
-import type { Copy } from '../i18n/copy';
-import { asset } from '../lib/asset';
+import type { Copy } from "../i18n/copy";
+import { asset } from "../lib/asset";
 
 interface Props {
   t: Copy;
+  /** Where the EN / NL switch links point. Defaults to the two homepages. */
+  enHref?: string;
+  nlHref?: string;
 }
 
-const { t } = Astro.props;
-const otherLangHref = t.lang === 'en' ? `${import.meta.env.BASE_URL}nl/` : import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL;
+const { t, enHref = base, nlHref = `${base}nl/` } = Astro.props;
+
+// In-page anchors resolve against the homepage of the current language.
+const home = t.lang === "en" ? base : `${base}nl/`;
 ---
 
 <nav class="nav">
-  <a href={import.meta.env.BASE_URL} class="brand">
-    <img src={asset('assets/evera-mark.png')} alt="Evera" class="mark" />
+  <a href={home} class="brand">
+    <img src={asset("assets/evera-mark.png")} alt="Evera" class="mark" />
     <div class="stack">
       <span class="wordmark">Evera</span>
-      <span class="tag">Movement space</span>
+      <span class="tag">Movement</span>
     </div>
   </a>
 
   <div class="nav-links">
-    <a href="#workshops">{t.nav.workshops}</a>
-    <a href="#about">{t.nav.about}</a>
-    <a href="#voices">{t.nav.voices}</a>
-    <a href="#visit">{t.nav.visit}</a>
+    <a href={`${home}#about`}>{t.nav.about}</a>
+    <a href={`${home}#offerings`}>{t.nav.offerings}</a>
+    <a href={`${home}#portfolio`}>{t.nav.portfolio}</a>
+    <a href={`${home}#contact`}>{t.nav.contact}</a>
     <span class="lang-switch">
-      <a href={import.meta.env.BASE_URL} class={t.lang === 'en' ? 'on' : ''}>EN</a>
+      <a href={enHref} class={t.lang === "en" ? "on" : ""}>EN</a>
       <span style="color: var(--rule)">/</span>
-      <a href={`${import.meta.env.BASE_URL}nl/`} class={t.lang === 'nl' ? 'on' : ''}>NL</a>
+      <a href={nlHref} class={t.lang === "nl" ? "on" : ""}>NL</a>
     </span>
-    <a href="#book" class="btn">
-      {t.nav.book} <span class="arrow">→</span>
-    </a>
-  </div>
-
-  <!-- Mobile: only show lang switch since nav-links is hidden -->
-  <div class="mobile-lang">
-    <a href={import.meta.env.BASE_URL} class={t.lang === 'en' ? 'on' : ''}>EN</a>
-    <span style="color: var(--rule)">/</span>
-    <a href={`${import.meta.env.BASE_URL}nl/`} class={t.lang === 'nl' ? 'on' : ''}>NL</a>
-    <a href="#book" class="btn" style="margin-left: 12px; padding: 10px 18px; font-size: 13px;">
-      {t.nav.book}
+    <a href={`${home}#contact`} class="btn">
+      {t.nav.cta}
+      <span class="arrow">→</span>
     </a>
   </div>
 </nav>
