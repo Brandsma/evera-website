@@ -81,8 +81,8 @@ export const COPY: { en: Copy; nl: Copy } = {
         ['Feel ', { it: 'better' }],
         ['and find ', { it: 'meaning' }, ' through the ', { accent: 'body.' }],
       ],
-      sub: 'Evera is a space where dance and movement is used as a gateway to feeling and understanding.',
-      ctaPrimary: 'Explore offerings',
+      sub: 'Evera is a space where dance and movement is used as a gateway to feeling and understanding. Through movement coaching and workshops I aim to help you experience new possibilities.',
+      ctaPrimary: 'Explore what I do',
       ctaSecondary: 'Get in touch',
     },
     about: {

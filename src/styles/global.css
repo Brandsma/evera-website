@@ -253,6 +253,9 @@ h4 {
 
 .nav-links a.btn {
   color: var(--paper);
+  white-space: nowrap;
+  font-size: 13px;
+  padding: 12px 18px;
 }
 
 .nav-links a.btn:hover {
@@ -322,6 +325,7 @@ h4 {
 .hero-headline .word {
   display: inline-block;
   padding-right: 0.18em;
+  padding-bottom: 0.2em;
   animation: riseIn 1.2s cubic-bezier(.2, .8, .2, 1) both;
 }
 
