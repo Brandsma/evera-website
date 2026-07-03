@@ -1,6 +1,7 @@
 ---
 import type { Copy } from '../../i18n/copy';
-import { asset } from '../../lib/asset';
+import { Image } from 'astro:assets';
+import portrait from '../../assets/michelle-portrait.jpg';
 
 interface Props { t: Copy }
 const { t } = Astro.props;
@@ -10,7 +11,14 @@ const { t } = Astro.props;
   <div class="shell">
     <div class="about-grid">
       <div class="about-portrait">
-        <img src={asset('images/michelle-portrait.jpg')} alt={t.about.portrait} loading="lazy" />
+        <Image
+          src={portrait}
+          alt={t.about.portrait}
+          widths={[480, 960]}
+          sizes="(max-width: 980px) 92vw, 40vw"
+          format="webp"
+          loading="lazy"
+        />
       </div>
       <div class="about-text">
         <span class="eyebrow">{t.about.eyebrow}</span>

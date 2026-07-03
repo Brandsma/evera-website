@@ -1,6 +1,10 @@
 ---
 import type { Copy } from '../../i18n/copy';
-import { asset } from '../../lib/asset';
+// Pre-optimized from the original artwork: resized to 810px (2x display size)
+// and flattened onto the footer brown (--brown #4c1b03), since webp with the
+// original alpha channel was ~2.5x larger. Regenerate if the artwork or the
+// footer background colour changes.
+import peopleArt from '../../assets/people-footer.webp';
 
 interface Props { t: Copy }
 const { t } = Astro.props;
@@ -9,7 +13,7 @@ const { t } = Astro.props;
 <div class="footer-wrap">
   <div class="shell footer">
     <div class="footer-art">
-      <img src={asset('images/people_background.png')} alt="" loading="lazy" />
+      <img src={peopleArt.src} width={peopleArt.width} height={peopleArt.height} alt="" loading="lazy" />
     </div>
     <div class="meta">{t.footer.meta[0]}</div>
     <div class="meta center">{t.footer.meta[1]}</div>
