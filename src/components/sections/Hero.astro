@@ -1,6 +1,6 @@
 ---
 import type { Copy, HeadPart } from '../../i18n/copy';
-import MorphBlob from '../MorphBlob';
+import MorphBlob from '../MorphBlob.astro';
 
 interface Props { t: Copy }
 const { t } = Astro.props;
@@ -17,10 +17,10 @@ const allParts = t.hero.headLines.map(line =>
 ---
 
 <section class="hero" id="top">
-  <MorphBlob client:load fill="var(--sand)" opacity={0.6} dur={18000} seed={0.1}
-    style={{ position: 'absolute', top: '-8%', right: '-10%', width: '70vw', maxWidth: 880, aspectRatio: '1/1', pointerEvents: 'none', zIndex: 0 }} />
-  <MorphBlob client:load fill="var(--sage)" opacity={0.45} dur={24000} seed={0.6}
-    style={{ position: 'absolute', bottom: '-20%', left: '-15%', width: '55vw', maxWidth: 720, aspectRatio: '1/1', pointerEvents: 'none', zIndex: 0 }} />
+  <MorphBlob fill="var(--sand)" opacity={0.6} dur={18000} seed={0.1}
+    style="position: absolute; top: -8%; right: -10%; width: 70vw; max-width: 880px; aspect-ratio: 1/1; pointer-events: none; z-index: 0;" />
+  <MorphBlob fill="var(--sage)" opacity={0.45} dur={24000} seed={0.6}
+    style="position: absolute; bottom: -20%; left: -15%; width: 55vw; max-width: 720px; aspect-ratio: 1/1; pointer-events: none; z-index: 0;" />
 
   <div class="hero-inner">
     <span class="eyebrow">{t.hero.eyebrow}</span>

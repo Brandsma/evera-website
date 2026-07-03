@@ -1,0 +1,64 @@
+---
+import type { Copy } from '../i18n/copy';
+
+interface Props {
+  labels: Copy['contact']['newsletter'];
+}
+
+const { labels } = Astro.props;
+---
+
+<form class="subscribe" data-newsletter data-done={labels.done}>
+  <input type="email" name="email" autocomplete="email" placeholder={labels.placeholder} required />
+  <button type="submit">{labels.cta} <span>→</span></button>
+</form>
+
+<script>
+  import { SUBSTACK_URL, SUBSTACK_SUBSCRIBE_URL } from '../config';
+
+  for (const form of document.querySelectorAll<HTMLFormElement>('form[data-newsletter]')) {
+    const input = form.querySelector('input')!;
+    const button = form.querySelector('button')!;
+    let loading = false;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = input.value;
+      if (loading || !/\S+@\S+\.\S+/.test(email)) return;
+      loading = true;
+      input.disabled = true;
+      button.disabled = true;
+      button.textContent = '…';
+
+      try {
+        const res = await fetch(`${SUBSTACK_URL}/api/v1/free`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            first_url: window.location.href,
+            first_referrer: document.referrer,
+            current_url: window.location.href,
+            current_referrer: document.referrer,
+            referral_code: '',
+            source: 'subscribe_page',
+          }),
+        });
+        if (!res.ok) fallback(email);
+      } catch {
+        // Network/CORS error — fall back to opening the subscribe page
+        fallback(email);
+      }
+
+      const done = document.createElement('div');
+      done.className = 'subscribed';
+      done.textContent = form.dataset.done ?? '';
+      form.replaceWith(done);
+    });
+  }
+
+  // Substack API unavailable — fall back to opening the subscribe page
+  function fallback(email: string) {
+    window.open(`${SUBSTACK_SUBSCRIBE_URL}?email=${encodeURIComponent(email)}`, '_blank', 'noopener');
+  }
+</script>

@@ -1,0 +1,105 @@
+---
+import type { Copy } from '../i18n/copy';
+
+interface Props {
+  labels: Copy['contact']['form'];
+}
+
+const { labels } = Astro.props;
+---
+
+<form
+  class="contact-form"
+  data-contact
+  data-done={labels.done}
+  data-sending={labels.sending}
+>
+  <div class="fields-row">
+    <div class="field">
+      <label for="cf-name">{labels.fields.name}</label>
+      <input id="cf-name" name="name" autocomplete="name" />
+    </div>
+    <div class="field">
+      <label for="cf-email">{labels.fields.email}</label>
+      <input id="cf-email" name="email" type="email" autocomplete="email" />
+    </div>
+  </div>
+  <div class="field">
+    <label for="cf-message">{labels.fields.message}</label>
+    <textarea id="cf-message" name="message" rows="4"></textarea>
+  </div>
+  <p class="form-error" hidden>{labels.error}</p>
+  <button
+    type="submit"
+    class="btn"
+    disabled
+    style="opacity: 0.4; cursor: not-allowed; align-self: flex-start;"
+  >
+    <span data-label>{labels.cta}</span> <span class="arrow">→</span>
+  </button>
+</form>
+
+<script>
+  import { WEB3FORMS_ACCESS_KEY } from '../config';
+
+  // Delivers messages to Michelle's inbox via Web3Forms (https://web3forms.com).
+  for (const form of document.querySelectorAll<HTMLFormElement>('form[data-contact]')) {
+    const name = form.querySelector<HTMLInputElement>('input[name="name"]')!;
+    const email = form.querySelector<HTMLInputElement>('input[name="email"]')!;
+    const message = form.querySelector<HTMLTextAreaElement>('textarea[name="message"]')!;
+    const error = form.querySelector<HTMLElement>('.form-error')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const label = button.querySelector<HTMLElement>('[data-label]')!;
+    const idleLabel = label.textContent;
+    let sending = false;
+
+    const canSend = () =>
+      name.value.trim().length > 1 &&
+      /\S+@\S+\.\S+/.test(email.value) &&
+      message.value.trim().length > 2;
+
+    const refresh = () => {
+      const ok = canSend() && !sending;
+      button.disabled = !ok;
+      button.style.opacity = canSend() ? '1' : '0.4';
+      button.style.cursor = canSend() ? 'pointer' : 'not-allowed';
+    };
+
+    for (const field of [name, email, message]) field.addEventListener('input', refresh);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!canSend() || sending) return;
+      sending = true;
+      label.textContent = form.dataset.sending ?? '';
+      refresh();
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_ACCESS_KEY,
+            name: name.value,
+            email: email.value,
+            message: message.value,
+            subject: `New message from ${name.value} via everamovement.com`,
+          }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          const done = document.createElement('div');
+          done.className = 'subscribed';
+          done.textContent = form.dataset.done ?? '';
+          form.replaceWith(done);
+          return;
+        }
+        error.hidden = false;
+      } catch {
+        error.hidden = false;
+      }
+      sending = false;
+      label.textContent = idleLabel;
+      refresh();
+    });
+  }
+</script>

@@ -1,7 +1,7 @@
 ---
 import type { Copy } from '../../i18n/copy';
-import NewsletterForm from '../NewsletterForm';
-import ContactForm from '../ContactForm';
+import NewsletterForm from '../NewsletterForm.astro';
+import ContactForm from '../ContactForm.astro';
 import { SUBSTACK_URL, CONTACT_EMAIL } from '../../config';
 
 interface Props { t: Copy }
@@ -18,7 +18,7 @@ const c = t.contact;
       <div class="contact-col">
         <h3>{c.newsletter.title}</h3>
         <p>{c.newsletter.desc}</p>
-        <NewsletterForm client:visible labels={c.newsletter} />
+        <NewsletterForm labels={c.newsletter} />
         <a class="substack-link" href={SUBSTACK_URL} target="_blank" rel="noopener noreferrer">
           {c.newsletter.substack} <span>→</span>
         </a>
@@ -27,7 +27,7 @@ const c = t.contact;
       <div class="contact-col">
         <h3>{c.form.title}</h3>
         <p>{c.form.desc}</p>
-        <ContactForm client:visible labels={c.form} />
+        <ContactForm labels={c.form} />
         <div class="contact-email">
           <span class="k">{c.form.emailLabel}</span>
           <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
