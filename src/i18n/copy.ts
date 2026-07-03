@@ -24,7 +24,6 @@ export interface Copy {
     headTail: string;
     paragraphs: string[];
     creds: [string, string][];
-    pull: string;
     portrait: string;
   };
   offerings: {
@@ -61,7 +60,7 @@ export interface Copy {
       emailLabel: string;
     };
   };
-  footer: { bigLead: string; bigEm: string; bigTail: string; meta: string[] };
+  footer: { meta: string[] };
 }
 
 export const COPY: { en: Copy; nl: Copy } = {
@@ -93,8 +92,8 @@ export const COPY: { en: Copy; nl: Copy } = {
       headEm2: 'container',
       headTail: '.',
       paragraphs: [
-        'Evera is led by Yun Ki Michelle, a physical therapist, yoga teacher and somatic movement educator practising in Utrecht and Bilthoven since 2016. The work draws on the Laban / Bartenieff Movement System, qi gong, yoga, and a decade in clinical physical therapy.',
-        'Evera began in 2026 as a space for one idea: that people make better work, and feel more at home in their craft, when they create from the body outward. The sessions are small, slow, and warm. Everyone leaves with something made.',
+        'Evera is led by Yun Ki Michelle, a physical therapist, movement artist and somatic movement educator practising in Utrecht and Bilthoven since 2016. The work draws on the Laban / Bartenieff Movement System, Qi Gong, Yoga, and a decade in clinical Physical Therapy.',
+        'Founded in 2026, Evera is a movement space to nurture a healthier connection with your body and find the freedom to truly express yourself.',
       ],
       creds: [
         ['2015·2020', 'Bachelor Physical Therapy, THIM'],
@@ -102,7 +101,6 @@ export const COPY: { en: Copy; nl: Copy } = {
         ['2021·2026', 'Physical Therapist, YorBody & Weerdsingel West'],
         ['2025·2028', 'Somatic Movement Educator, EMOVE Institute'],
       ],
-      pull: 'We move, and then we make.',
       portrait: 'Portrait of Michelle in the studio',
     },
     offerings: {
@@ -110,7 +108,7 @@ export const COPY: { en: Copy; nl: Copy } = {
       headLead: 'Two ways to',
       headEm: 'work',
       headTail: 'together.',
-      intro: 'These are the two things Michelle offers. The current dates, places and themes live on Instagram and Substack.',
+      intro: 'These are the two things Michelle offers. The current dates, places and themes for these and other sessions live on Instagram and Substack. Open to collaboration and custom sessions as well.',
       list: [
         {
           k: '01',
@@ -122,17 +120,17 @@ export const COPY: { en: Copy; nl: Copy } = {
         {
           k: '02',
           title: 'Group Movement Workshops',
-          sub: 'in a circle',
+          sub: 'with others',
           desc: 'All kinds of movement exercises and play, to learn about the body and to make something together. Each group finds its own rhythm.',
           accent: 'sage',
         },
       ],
-      close: 'Both come down to the same thing, a stronger connection between mind and body.',
+      close: '',
     },
     voices: {
       eyebrow: 'What people say',
-      headLead: 'Voices from the',
-      headEm: 'circle.',
+      headLead: 'Testimonials',
+      headEm: '',
       list: [
         { text: 'By the time we picked up our pens, the writing was already moving. I left with three pages I would never have found at my desk.', name: 'Iris van der Wal', role: 'Writer' },
         { text: 'Michelle holds the room with so much warmth. My voice arrived in places I had been straining toward for years.', name: 'Daan Hofman', role: 'Singer' },
@@ -140,19 +138,19 @@ export const COPY: { en: Copy; nl: Copy } = {
       ],
     },
     portfolio: {
-      eyebrow: 'Portfolio',
-      headLead: 'Where the work',
-      headEm: 'lives.',
+      eyebrow: '',
+      headLead: 'Portfolio &',
+      headEm: 'Writing',
       desc: 'Notes on movement, the body and making. New writing is posted on Substack first. The latest pieces are below.',
       readAll: 'Read all posts',
       empty: 'New posts will appear here soon.',
     },
     blog: {
       title: 'Writing · Evera',
-      eyebrow: 'Writing',
-      headLead: 'Field',
-      headEm: 'notes.',
-      desc: 'Notes on movement, the body and making. Posted on Substack, collected here.',
+      eyebrow: '',
+      headLead: '',
+      headEm: 'Notes',
+      desc: 'on movement, the body and making. Also posted on Substack.',
       follow: 'Follow on Substack',
       back: 'Back to Evera',
     },
@@ -166,7 +164,7 @@ export const COPY: { en: Copy; nl: Copy } = {
       headEm: 'hello.',
       newsletter: {
         title: 'Newsletter',
-        desc: 'A quiet email each season with upcoming sessions, a reading, and a movement to try at home. You can also read it on Substack.',
+        desc: 'A lively email with movements to try at home, or a regular dose of inspiration for your own practice. You can also read it on Substack.',
         placeholder: 'you@somewhere.com',
         cta: 'Subscribe',
         substack: 'Read on Substack',
@@ -184,9 +182,6 @@ export const COPY: { en: Copy; nl: Copy } = {
       },
     },
     footer: {
-      bigLead: 'Move',
-      bigEm: 'first.',
-      bigTail: ' Make next.',
       meta: ['© 2026 Evera Studio', 'Utrecht & Bilthoven', 'Colophon'],
     },
   },
@@ -201,13 +196,13 @@ export const COPY: { en: Copy; nl: Copy } = {
       cta: 'Neem contact op',
     },
     hero: {
-      eyebrow: 'Evera · Bewegingsruimte voor creatieven · Utrecht & Bilthoven',
+      eyebrow: 'Evera · Beweging · Utrecht & Bilthoven',
       headLines: [
-        ['Maak ', { it: 'vanuit' }],
-        [{ accent: 'het' }, ' ', { it: 'lichaam.' }],
+        ['Voel je ', { it: 'beter' }],
+        ['en vind ', { it: 'betekenis' }, ' door het ', { accent: 'lichaam.' }],
       ],
-      sub: 'Evera is een ruimte waar beweging de bron van artistiek werk wordt. In kleine sessies en groepsworkshops keren makers terug naar het lichaam als startpunt voor alles wat ze maken.',
-      ctaPrimary: 'Bekijk het aanbod',
+      sub: 'Evera is een ruimte waar dans en beweging een toegang vormen tot voelen en begrijpen. Met bewegingscoaching en workshops wil ik je helpen nieuwe mogelijkheden te ervaren.',
+      ctaPrimary: 'Ontdek wat ik doe',
       ctaSecondary: 'Neem contact op',
     },
     about: {
@@ -218,8 +213,8 @@ export const COPY: { en: Copy; nl: Copy } = {
       headEm2: 'vat',
       headTail: '.',
       paragraphs: [
-        'Evera wordt geleid door Yun Ki Michelle, fysiotherapeut, yogadocent en somatisch bewegingsdocent, werkzaam in Utrecht en Bilthoven sinds 2016. Het werk komt voort uit het Laban / Bartenieff Movement System, qi gong, yoga en tien jaar klinische fysiotherapie.',
-        'Evera begon in 2026 als een ruimte voor één idee: dat mensen beter werk maken, en zich meer thuis voelen in hun vak, wanneer ze creëren vanuit het lichaam. De sessies zijn klein, traag en warm. Iedereen gaat naar huis met iets gemaakts.',
+        'Evera wordt geleid door Yun Ki Michelle, fysiotherapeut, beweegartiest en somatisch bewegingsdocent, werkzaam in Utrecht en Bilthoven sinds 2016. Het werk komt voort uit het Laban / Bartenieff Movement System, Qi Gong, Yoga en tien jaar klinische Fysiotherapie.',
+        'Opgericht in 2026 is Evera een bewegingsruimte om een gezondere verbinding met je lichaam op te bouwen en de vrijheid te vinden om jezelf echt uit te drukken.',
       ],
       creds: [
         ['2015·2020', 'Bachelor Fysiotherapie, THIM'],
@@ -227,7 +222,6 @@ export const COPY: { en: Copy; nl: Copy } = {
         ['2021·2026', 'Fysiotherapeut, YorBody & Weerdsingel West'],
         ['2025·2028', 'Somatisch Bewegingsdocent, EMOVE Institute'],
       ],
-      pull: 'Eerst bewegen. Dan maken.',
       portrait: 'Portret van Michelle in de studio',
     },
     offerings: {
@@ -247,17 +241,17 @@ export const COPY: { en: Copy; nl: Copy } = {
         {
           k: '02',
           title: 'Groepsworkshops beweging',
-          sub: 'in een kring',
+          sub: 'met anderen',
           desc: 'Allerlei bewegingsoefeningen en spel, om het lichaam te leren kennen en om samen iets te maken. Elke groep vindt zijn eigen ritme.',
           accent: 'sage',
         },
       ],
-      close: 'Beide komen neer op hetzelfde, een sterkere verbinding tussen lichaam en geest.',
+      close: '',
     },
     voices: {
       eyebrow: 'Wat mensen zeggen',
-      headLead: 'Stemmen uit de',
-      headEm: 'kring.',
+      headLead: 'Ervaringen',
+      headEm: '',
       list: [
         { text: "Tegen de tijd dat we onze pennen oppakten, was het schrijven al in beweging. Ik vertrok met drie pagina's die ik aan mijn bureau nooit had gevonden.", name: 'Iris van der Wal', role: 'Schrijver' },
         { text: 'Michelle houdt de ruimte met zoveel warmte. Mijn stem kwam aan op plekken waar ik jaren naar had geleund.', name: 'Daan Hofman', role: 'Zanger' },
@@ -265,19 +259,19 @@ export const COPY: { en: Copy; nl: Copy } = {
       ],
     },
     portfolio: {
-      eyebrow: 'Portfolio',
-      headLead: 'Waar het werk',
-      headEm: 'leeft.',
+      eyebrow: '',
+      headLead: 'Portfolio &',
+      headEm: 'Teksten',
       desc: 'Aantekeningen over beweging, het lichaam en maken. Nieuwe teksten verschijnen eerst op Substack. De recentste staan hieronder.',
       readAll: 'Bekijk alle berichten',
       empty: 'Nieuwe berichten verschijnen hier binnenkort.',
     },
     blog: {
       title: 'Teksten · Evera',
-      eyebrow: 'Teksten',
-      headLead: 'Veld',
-      headEm: 'notities.',
-      desc: 'Aantekeningen over beweging, het lichaam en maken. Gepost op Substack, hier verzameld.',
+      eyebrow: '',
+      headLead: '',
+      headEm: 'Notities',
+      desc: 'over beweging, het lichaam en maken. Ook geplaatst op Substack.',
       follow: 'Volg op Substack',
       back: 'Terug naar Evera',
     },
@@ -303,15 +297,12 @@ export const COPY: { en: Copy; nl: Copy } = {
         fields: { name: 'Je naam', email: 'E-mail', message: 'Je bericht' },
         cta: 'Verstuur bericht',
         sending: 'Versturen…',
-        done: 'Dankjewel. Michelle reageert binnen een dag.',
+        done: 'Dankjewel. Ik reageer snel!',
         error: 'Er ging iets mis. Mail in plaats daarvan direct.',
         emailLabel: 'Of mail direct',
       },
     },
     footer: {
-      bigLead: 'Beweeg',
-      bigEm: 'eerst.',
-      bigTail: ' Maak daarna.',
       meta: ['© 2026 Evera Studio', 'Utrecht & Bilthoven', 'Colofon'],
     },
   },

@@ -1,28 +1,42 @@
 /* ─────────────────────────────────────────────────────────────
    Evera, movement space for creatives.
-   Cream paper, warm brown ink, deep teal anchor, sage/blush/sand accents.
-   Organic, soft, breathing. Minimal. No hard grids, no shadows.
+   Cream paper, warm brown ink. Two-colour warm palette with soft hues.
+   Organic moving blobs, sharp-edged blocks. Minimal. No hard grids, no shadows.
    ───────────────────────────────────────────────────────────── */
 
 :root {
-  /* Brand palette */
-  --teal: #3d6464;
-  --brown: #7a4f30;
-  --blush: #f2d5bc;
+  /* Warm monochrome palette — brown primary on cream paper.
+     Former teal/sage accents are folded into the brown family, so the
+     site reads as two colours (brown + cream) with soft warm hues.
+     The --teal / --sage names are kept as tonal slots to avoid churn. */
+  --brown: #4c1b03;
+  /* primary */
   --cream: #ede3ce;
-  --sand: #d9b993;
-  --sage: #bfcc92;
+  /* paper */
+  --teal: var(--brown);
+  /* dark surfaces — unified with the primary mahogany */
+  --sage: #e2d3b6;
+  /* subtle warm tint surfaces */
+  --blush: #ecdac4;
+  /* soft warm hue */
+  --sand: #dcc7a3;
+  /* soft warm hue */
   --tan: #b08b6a;
+  /* image placeholder ground */
 
   /* Tonal aliases */
   --paper: var(--cream);
   --paper-2: #e5d7bb;
   --ink: var(--brown);
-  --ink-strong: #5e3c22;
-  --ink-soft: #8a6b51;
-  --accent: var(--teal);
-  --rule: rgba(122, 79, 48, 0.22);
-  --rule-soft: rgba(122, 79, 48, 0.10);
+  --ink-strong: #3d1503;
+  --ink-soft: #8a5a44;
+  --accent: #3d6464;
+  /* teal — cool accent against the mahogany */
+  --rule: rgba(76, 27, 3, 0.22);
+  --rule-soft: rgba(76, 27, 3, 0.10);
+
+  /* Corners — sharp aesthetic with very subtle rounding */
+  --radius: 3px;
 
   --display: "Playfair Display", "Cormorant Garamond", "EB Garamond", Georgia, serif;
   --body: "DM Sans", "Jost", ui-sans-serif, sans-serif;
@@ -61,8 +75,8 @@ body::before {
   opacity: 0.55;
   mix-blend-mode: multiply;
   background-image:
-    radial-gradient(rgba(122, 79, 48, 0.05) 1px, transparent 1px),
-    radial-gradient(rgba(122, 79, 48, 0.035) 1px, transparent 1px);
+    radial-gradient(rgba(76, 27, 3, 0.05) 1px, transparent 1px),
+    radial-gradient(rgba(76, 27, 3, 0.035) 1px, transparent 1px);
   background-size: 3px 3px, 7px 7px;
   background-position: 0 0, 1px 1px;
 }
@@ -110,9 +124,9 @@ h3,
 h4 {
   font-family: var(--display);
   font-weight: 500;
-  letter-spacing: -0.005em;
+  letter-spacing: 0.015em;
   margin: 0;
-  line-height: 1.02;
+  line-height: 1.14;
   color: var(--ink-strong);
 }
 
@@ -128,7 +142,7 @@ h4 {
   background: var(--ink);
   color: var(--paper);
   padding: 16px 26px;
-  border-radius: 14px;
+  border-radius: var(--radius);
   font-family: var(--body);
   font-size: 14px;
   font-weight: 500;
@@ -191,7 +205,7 @@ h4 {
 .brand img.mark {
   width: 40px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: var(--radius);
   object-fit: cover;
 }
 
@@ -306,9 +320,9 @@ h4 {
 
 .hero-headline {
   font-family: var(--display);
-  font-size: clamp(54px, 8.6vw, 132px);
-  line-height: 0.98;
-  letter-spacing: -0.02em;
+  font-size: clamp(34px, 7.8vw, 118px);
+  line-height: 1.1;
+  letter-spacing: 0.03em;
   color: var(--ink-strong);
   font-weight: 500;
   margin-top: 28px;
@@ -409,7 +423,7 @@ h4 {
 .about-portrait {
   aspect-ratio: 4/5;
   background: var(--tan);
-  border-radius: 200px 200px 80px 80px;
+  border-radius: var(--radius);
   position: relative;
   overflow: hidden;
   color: var(--paper);
@@ -478,19 +492,6 @@ h4 {
   line-height: 1.3;
 }
 
-.about-pull {
-  margin-top: 40px;
-  padding: 28px 32px;
-  background: var(--sage);
-  border-radius: 28px;
-  font-family: var(--display);
-  font-style: italic;
-  font-size: clamp(24px, 2.4vw, 32px);
-  line-height: 1.3;
-  color: var(--ink-strong);
-  max-width: 36ch;
-}
-
 /* ── Offerings ─────────────────────────────────────────────── */
 .offerings {
   background: var(--paper-2);
@@ -536,7 +537,7 @@ h4 {
 
 .offer {
   position: relative;
-  border-radius: 36px;
+  border-radius: var(--radius);
   padding: 44px 44px 48px;
   display: flex;
   flex-direction: column;
@@ -643,7 +644,7 @@ h4 {
   background: var(--paper);
   border: 1px solid var(--rule);
   padding: 36px 32px;
-  border-radius: 32px;
+  border-radius: var(--radius);
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -685,7 +686,7 @@ h4 {
   gap: 3px;
   margin-top: auto;
   padding-top: 18px;
-  border-top: 1px solid rgba(122, 79, 48, 0.18);
+  border-top: 1px solid rgba(76, 27, 3, 0.18);
 }
 
 .voice .name {
@@ -779,7 +780,7 @@ h4 {
 .post-row:hover {
   padding-left: 16px;
   padding-right: 16px;
-  background: rgba(122, 79, 48, 0.04);
+  background: rgba(76, 27, 3, 0.04);
 }
 
 .post-meta {
@@ -960,10 +961,11 @@ h4 {
 .contact-col {
   background: var(--paper);
   color: var(--ink);
-  border-radius: 36px;
+  border-radius: var(--radius);
   padding: 44px 44px 40px;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .contact-col h3 {
@@ -987,6 +989,7 @@ h4 {
 
 .subscribe input {
   flex: 1;
+  min-width: 0;
   border: 0;
   background: none;
   font: inherit;
@@ -1056,6 +1059,7 @@ h4 {
   flex-direction: column;
   gap: 8px;
   margin-bottom: 20px;
+  min-width: 0;
 }
 
 .field label {
@@ -1068,6 +1072,8 @@ h4 {
 
 .field input,
 .field textarea {
+  width: 100%;
+  min-width: 0;
   border: 0;
   border-bottom: 1px solid var(--rule);
   background: none;
@@ -1142,20 +1148,21 @@ h4 {
   gap: 40px;
 }
 
-.footer .big {
-  font-family: var(--display);
-  font-size: clamp(72px, 13vw, 200px);
-  line-height: 0.92;
-  letter-spacing: -0.02em;
+.footer-art {
   grid-column: 1 / -1;
-  margin-bottom: 40px;
-  color: var(--cream);
-  font-weight: 500;
+  margin-bottom: 48px;
+  display: flex;
+  justify-content: center;
 }
 
-.footer .big .em {
-  font-style: italic;
-  color: var(--sand);
+.footer-art img {
+  height: min(58vh, 540px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 0.9;
+  pointer-events: none;
+  user-select: none;
 }
 
 .footer .meta {
@@ -1209,7 +1216,7 @@ h4 {
 .blog-title {
   font-size: clamp(52px, 9vw, 120px);
   margin: 18px 0 20px;
-  line-height: 0.96;
+  line-height: 1.04;
 }
 
 .blog-title .it {
@@ -1274,14 +1281,14 @@ h4 {
 
 .post-h1 {
   font-size: clamp(40px, 6vw, 72px);
-  line-height: 1.02;
-  letter-spacing: -0.01em;
+  line-height: 1.1;
+  letter-spacing: 0;
   margin-bottom: 36px;
 }
 
 .post-cover {
   aspect-ratio: 16/9;
-  border-radius: 28px;
+  border-radius: var(--radius);
   overflow: hidden;
   background: var(--tan);
   margin-bottom: 48px;
@@ -1301,7 +1308,7 @@ h4 {
 
 .post-audio audio {
   width: 100%;
-  border-radius: 14px;
+  border-radius: var(--radius);
   accent-color: var(--accent);
 }
 
@@ -1371,7 +1378,7 @@ h4 {
 .post-body img {
   max-width: 100%;
   height: auto;
-  border-radius: 20px;
+  border-radius: var(--radius);
   display: block;
   pointer-events: none;
 }
@@ -1394,7 +1401,7 @@ h4 {
   justify-content: center;
   width: 30px;
   height: 30px;
-  border-radius: 8px;
+  border-radius: var(--radius);
   border: 1px solid var(--rule);
   background: var(--paper);
   cursor: pointer;
@@ -1414,7 +1421,7 @@ h4 {
 }
 
 .post-body .icon-container.view-image {
-  border-color: rgba(122, 79, 48, 0.22);
+  border-color: rgba(76, 27, 3, 0.22);
 }
 
 .post-body .icon-container.view-image:hover {
@@ -1442,7 +1449,7 @@ h4 {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 0;
-  border-radius: 20px;
+  border-radius: var(--radius);
   margin: 36px 0;
 }
 

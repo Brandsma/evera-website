@@ -51,7 +51,19 @@ async function fetchPosts(): Promise<Post[]> {
     }
     let items = doc?.rss?.channel?.item ?? [];
     if (!Array.isArray(items)) items = [items];
-    const posts = items.map(toPost).filter((p): p is Post => p !== null);
+    let posts = items.map(toPost).filter((p): p is Post => p !== null);
+
+    // Substack's RSS omits post tags, so curate via the JSON API instead.
+    if (SUBSTACK_TAG) {
+      try {
+        const tagged = await fetchTaggedSlugs();
+        posts = posts.filter(p => tagged.has(p.slug));
+      } catch (err) {
+        console.warn(`[substack] Could not load tags for "${SUBSTACK_TAG}"; blog will be empty.`, err);
+        return [];
+      }
+    }
+
     posts.sort((a, b) => (a.iso < b.iso ? 1 : -1));
     console.log(`[substack] Loaded ${posts.length} post(s) from the feed.`);
     return posts;
@@ -61,17 +73,35 @@ async function fetchPosts(): Promise<Post[]> {
   }
 }
 
+/**
+ * Slugs of posts carrying SUBSTACK_TAG, read from the JSON API.
+ * Substack's RSS feed drops post tags, but the API keeps them, keyed by the
+ * same slug used in the RSS post links — so we can filter the feed by slug.
+ * Throws on failure so the caller can fail closed (empty blog) rather than
+ * leaking untagged posts.
+ */
+async function fetchTaggedSlugs(): Promise<Set<string>> {
+  const tag = SUBSTACK_TAG.toLowerCase();
+  const res = await fetch(`${SUBSTACK_URL}/api/v1/posts?limit=50`, { redirect: 'follow' });
+  if (!res.ok) throw new Error(`posts API returned ${res.status}`);
+  const data = await res.json();
+  const list: any[] = Array.isArray(data) ? data : [];
+  const slugs = new Set<string>();
+  for (const p of list) {
+    const tags: any[] = Array.isArray(p?.postTags) ? p.postTags : [];
+    if (p?.slug && tags.some(t => String(t?.name).toLowerCase() === tag)) {
+      slugs.add(String(p.slug));
+    }
+  }
+  return slugs;
+}
+
 function toPost(item: any): Post | null {
   const link = textOf(item.link);
   const slug = link.match(/\/p\/([^/?#]+)/)?.[1];
   const title = textOf(item.title);
   const html = textOf(item['content:encoded']);
   if (!slug || !title) return null;
-
-  if (SUBSTACK_TAG) {
-    const cats = [item.category].flat().map(textOf).map(s => s.toLowerCase());
-    if (!cats.includes(SUBSTACK_TAG.toLowerCase())) return null;
-  }
 
   const date = new Date(textOf(item.pubDate) || Date.now());
   const words = stripTags(html).split(/\s+/).filter(Boolean).length;

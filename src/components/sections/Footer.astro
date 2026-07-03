@@ -1,5 +1,6 @@
 ---
 import type { Copy } from '../../i18n/copy';
+import { asset } from '../../lib/asset';
 
 interface Props { t: Copy }
 const { t } = Astro.props;
@@ -7,8 +8,8 @@ const { t } = Astro.props;
 
 <div class="footer-wrap">
   <div class="shell footer">
-    <div class="big">
-      {t.footer.bigLead} <span class="em">{t.footer.bigEm}</span>{t.footer.bigTail}
+    <div class="footer-art">
+      <img src={asset('images/people_background.png')} alt="" loading="lazy" />
     </div>
     <div class="meta">{t.footer.meta[0]}</div>
     <div class="meta center">{t.footer.meta[1]}</div>
