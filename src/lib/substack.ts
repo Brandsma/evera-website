@@ -36,7 +36,7 @@ export function getPosts(): Promise<Post[]> {
 
 async function fetchPosts(): Promise<Post[]> {
   try {
-    const res = await fetch(`${SUBSTACK_URL}/feed`, { redirect: 'follow' });
+    const res = await fetch(`${SUBSTACK_URL}/feed`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
     if (!res.ok) {
       console.warn(`[substack] Feed returned ${res.status}; blog will be empty.`);
       return [];
@@ -82,7 +82,7 @@ async function fetchPosts(): Promise<Post[]> {
  */
 async function fetchTaggedSlugs(): Promise<Set<string>> {
   const tag = SUBSTACK_TAG.toLowerCase();
-  const res = await fetch(`${SUBSTACK_URL}/api/v1/posts?limit=50`, { redirect: 'follow' });
+  const res = await fetch(`${SUBSTACK_URL}/api/v1/posts?limit=50`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
   if (!res.ok) throw new Error(`posts API returned ${res.status}`);
   const data = await res.json();
   const list: any[] = Array.isArray(data) ? data : [];

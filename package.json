@@ -9,7 +9,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@anthropic-ai/claude-code": "^2.1.173",
     "@astrojs/react": "^3.6.0",
     "astro": "^4.16.0",
     "fast-xml-parser": "^5.8.0",
