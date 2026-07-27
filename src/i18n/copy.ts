@@ -132,9 +132,9 @@ export const COPY: { en: Copy; nl: Copy } = {
       headLead: 'Testimonials',
       headEm: '',
       list: [
-        { text: 'By the time we picked up our pens, the writing was already moving. I left with three pages I would never have found at my desk.', name: 'Iris van der Wal', role: 'Writer' },
-        { text: 'Michelle holds the room with so much warmth. My voice arrived in places I had been straining toward for years.', name: 'Daan Hofman', role: 'Singer' },
-        { text: 'It changed how our company approaches rehearsal. Precise, generous, and somehow also playful.', name: 'Sara El-Amrani', role: 'Artistic Director, Kollektiv 8' },
+        { text: 'It was fantastic! Refreshing and inspiring after years and years of dancing. What a breath of fresh air to see my body through another lens, another perspective.', name: 'Lizzy', role: 'Workshop Embodied Anatomy' },
+        { text: 'I learned more about my body, appreciate it more, feel it more. And most importantly, it was so much fun. You made room to feel comfortable around strangers, to dance in front of others. I went home with a loose, comfortable, more confident feeling.', name: 'Luise', role: 'Workshop Embodied Anatomy' },
+        { text: 'So lovely to come into contact with my body in such a kind way. It softens me. Michelle, you guide this with so much enthusiasm and you truly live it. Wonderful to see you enjoy it.', name: 'Ceciel', role: 'Workshop Embodied Anatomy' },
       ],
     },
     portfolio: {
@@ -253,9 +253,9 @@ export const COPY: { en: Copy; nl: Copy } = {
       headLead: 'Ervaringen',
       headEm: '',
       list: [
-        { text: "Tegen de tijd dat we onze pennen oppakten, was het schrijven al in beweging. Ik vertrok met drie pagina's die ik aan mijn bureau nooit had gevonden.", name: 'Iris van der Wal', role: 'Schrijver' },
-        { text: 'Michelle houdt de ruimte met zoveel warmte. Mijn stem kwam aan op plekken waar ik jaren naar had geleund.', name: 'Daan Hofman', role: 'Zanger' },
-        { text: 'Het veranderde hoe ons gezelschap repeteert. Precies, gul en op een of andere manier ook speels.', name: 'Sara El-Amrani', role: 'Artistiek Leider, Kollektiv 8' },
+        { text: 'Het was fantastisch! Verfrissend en inspirerend na jarenlang dansen. Wat een verademing om mijn lichaam door een andere lens te zien, vanuit een ander perspectief.', name: 'Lizzy', role: 'Workshop Embodied Anatomy' },
+        { text: 'Ik heb meer over mijn lichaam geleerd, waardeer het meer, voel het meer. En het belangrijkste: het was zo leuk. Je maakte ruimte om je op je gemak te voelen tussen vreemden, om te dansen waar anderen bij zijn. Ik ging naar huis met een los, comfortabel en zelfverzekerder gevoel.', name: 'Luise', role: 'Workshop Embodied Anatomy' },
+        { text: 'Heel fijn om op deze vriendelijke manier in contact te komen met mijn lijf. Het verzacht me. Michelle, jij begeleidt dit met zoveel enthousiasme en je leeft het voor. Heerlijk om je te zien genieten.', name: 'Ceciel', role: 'Workshop Embodied Anatomy' },
       ],
     },
     portfolio: {
