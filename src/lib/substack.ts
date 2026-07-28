@@ -1,5 +1,6 @@
 import { XMLParser } from 'fast-xml-parser';
 import { SUBSTACK_FETCH_BASE, SUBSTACK_TAG } from '../config';
+import TAGGED from '../data/tagged-slugs.json';
 
 export interface Post {
   slug: string;
@@ -53,19 +54,14 @@ async function fetchPosts(): Promise<Post[]> {
     if (!Array.isArray(items)) items = [items];
     let posts = items.map(toPost).filter((p): p is Post => p !== null);
 
-    // Substack's RSS omits post tags, so curate via the JSON API instead.
+    // Substack's RSS omits post tags, so curate from the snapshot instead.
     if (SUBSTACK_TAG) {
-      try {
-        const tagged = await fetchTaggedSlugs();
-        posts = posts.filter(p => tagged.has(p.slug));
-      } catch (err) {
-        console.warn(`[substack] Could not load tags for "${SUBSTACK_TAG}"; blog will be empty.`, err);
-        return [];
-      }
+      const tagged = taggedSlugs();
+      posts = posts.filter(p => tagged.has(p.slug));
     }
 
     posts.sort((a, b) => (a.iso < b.iso ? 1 : -1));
-    console.log(`[substack] Loaded ${posts.length} post(s) from ${SUBSTACK_FETCH_BASE}.`);
+    console.log(`[substack] Loaded ${posts.length} post(s) from ${SUBSTACK_FETCH_BASE}, tags synced ${TAGGED.syncedAt}.`);
     return posts;
   } catch (err) {
     console.warn('[substack] Could not load feed; blog will be empty.', err);
@@ -74,25 +70,17 @@ async function fetchPosts(): Promise<Post[]> {
 }
 
 /**
- * Slugs of posts carrying SUBSTACK_TAG, scraped from the publication's tag page.
- * Substack's RSS feed drops post tags, and its JSON API — which keeps them —
- * answers the Worker proxy's shared Cloudflare IPs with 429s. The tag page is
- * plain HTML and proxies fine, and its links use the same slug as the RSS feed.
- * Throws on failure so the caller can fail closed (empty blog) rather than
- * leaking untagged posts.
+ * Slugs of posts carrying SUBSTACK_TAG, read from the committed snapshot.
+ * Substack's RSS feed drops post tags, and every other Substack path that keeps
+ * them (JSON API, tag page) answers the Worker proxy's shared Cloudflare IPs
+ * with 429s — so the list is snapshotted by `npm run sync:tags` instead.
  */
-async function fetchTaggedSlugs(): Promise<Set<string>> {
+function taggedSlugs(): Set<string> {
   const tag = SUBSTACK_TAG.toLowerCase();
-  const res = await fetch(`${SUBSTACK_FETCH_BASE}/t/${tag}`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
-  if (!res.ok) throw new Error(`tag page returned ${res.status}`);
-  const html = await res.text();
-  // Match only post-preview links, so recommendations elsewhere on the page
-  // can't pull untagged posts in. Substack paginates past ~12 posts; beyond
-  // that the older ones would need the API again.
-  const links = html.matchAll(/<a[^>]+href="[^"]*\/p\/([a-z0-9-]+)"[^>]*data-testid="post-preview-title"/g);
-  const slugs = new Set<string>([...links].map(m => m[1]!));
-  if (slugs.size === 0) throw new Error('tag page listed no posts');
-  return slugs;
+  if (TAGGED.tag !== tag) {
+    throw new Error(`snapshot holds tag "${TAGGED.tag}" but SUBSTACK_TAG is "${tag}"; run npm run sync:tags`);
+  }
+  return new Set(TAGGED.slugs);
 }
 
 function toPost(item: any): Post | null {
