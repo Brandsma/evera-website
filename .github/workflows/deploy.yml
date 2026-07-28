@@ -35,6 +35,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Cloudflare Worker proxy — Substack 403s this runner's datacenter IP.
+          SUBSTACK_PROXY_URL: ${{ vars.SUBSTACK_PROXY_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -1,5 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
-import { SUBSTACK_URL, SUBSTACK_TAG } from '../config';
+import { SUBSTACK_FETCH_BASE, SUBSTACK_TAG } from '../config';
 
 export interface Post {
   slug: string;
@@ -36,9 +36,9 @@ export function getPosts(): Promise<Post[]> {
 
 async function fetchPosts(): Promise<Post[]> {
   try {
-    const res = await fetch(`${SUBSTACK_URL}/feed`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
+    const res = await fetch(`${SUBSTACK_FETCH_BASE}/feed`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
     if (!res.ok) {
-      console.warn(`[substack] Feed returned ${res.status}; blog will be empty.`);
+      console.warn(`[substack] Feed at ${SUBSTACK_FETCH_BASE} returned ${res.status}; blog will be empty.`);
       return [];
     }
     const xml = await res.text();
@@ -65,7 +65,7 @@ async function fetchPosts(): Promise<Post[]> {
     }
 
     posts.sort((a, b) => (a.iso < b.iso ? 1 : -1));
-    console.log(`[substack] Loaded ${posts.length} post(s) from the feed.`);
+    console.log(`[substack] Loaded ${posts.length} post(s) from ${SUBSTACK_FETCH_BASE}.`);
     return posts;
   } catch (err) {
     console.warn('[substack] Could not load feed; blog will be empty.', err);
@@ -82,7 +82,7 @@ async function fetchPosts(): Promise<Post[]> {
  */
 async function fetchTaggedSlugs(): Promise<Set<string>> {
   const tag = SUBSTACK_TAG.toLowerCase();
-  const res = await fetch(`${SUBSTACK_URL}/api/v1/posts?limit=50`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
+  const res = await fetch(`${SUBSTACK_FETCH_BASE}/api/v1/posts?limit=50`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
   if (!res.ok) throw new Error(`posts API returned ${res.status}`);
   const data = await res.json();
   const list: any[] = Array.isArray(data) ? data : [];

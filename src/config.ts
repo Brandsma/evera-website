@@ -2,6 +2,11 @@
 
 // Substack publication. The blog is built from `${SUBSTACK_URL}/feed` at build time.
 export const SUBSTACK_URL = 'https://bravelittleheart.substack.com';
+// Substack answers CI's datacenter IPs with a 403, so GitHub Actions builds fetch
+// through the Cloudflare Worker in worker/ instead. Set the SUBSTACK_PROXY_URL repo
+// variable to the deployed worker URL; when unset (local dev) we fetch Substack
+// directly. Only affects where the build reads from — links still point at Substack.
+export const SUBSTACK_FETCH_BASE = import.meta.env.SUBSTACK_PROXY_URL || SUBSTACK_URL;
 // Only posts tagged with this value (case-insensitive) are shown on the site.
 // Set to '' or undefined to show all posts.
 export const SUBSTACK_TAG = 'evera';
