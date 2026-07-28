@@ -8,7 +8,7 @@
 // general-purpose open proxy.
 
 const UPSTREAM = 'https://bravelittleheart.substack.com';
-const ALLOWED_PATHS = new Set(['/feed', '/api/v1/posts']);
+const ALLOWED_PATHS = new Set(['/feed', '/api/v1/archive', '/api/v1/posts']);
 
 export default {
   async fetch(request) {

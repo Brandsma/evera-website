@@ -82,10 +82,7 @@ async function fetchPosts(): Promise<Post[]> {
  */
 async function fetchTaggedSlugs(): Promise<Set<string>> {
   const tag = SUBSTACK_TAG.toLowerCase();
-  const res = await fetch(`${SUBSTACK_FETCH_BASE}/api/v1/posts?limit=50`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
-  if (!res.ok) throw new Error(`posts API returned ${res.status}`);
-  const data = await res.json();
-  const list: any[] = Array.isArray(data) ? data : [];
+  const list = await fetchTaggedPostList();
   const slugs = new Set<string>();
   for (const p of list) {
     const tags: any[] = Array.isArray(p?.postTags) ? p.postTags : [];
@@ -94,6 +91,27 @@ async function fetchTaggedSlugs(): Promise<Set<string>> {
     }
   }
   return slugs;
+}
+
+/**
+ * Post list carrying `postTags`. Two Substack endpoints expose it, but the
+ * Worker proxy is rate-limited (429) on /api/v1/posts, so try /api/v1/archive
+ * first and keep the other as a fallback for direct (local) builds.
+ */
+async function fetchTaggedPostList(): Promise<any[]> {
+  const paths = ['/api/v1/archive?sort=new&limit=50', '/api/v1/posts?limit=50'];
+  const failures: string[] = [];
+  for (const path of paths) {
+    const res = await fetch(`${SUBSTACK_FETCH_BASE}${path}`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data)) return data;
+      failures.push(`${path} returned a non-array body`);
+    } else {
+      failures.push(`${path} returned ${res.status}`);
+    }
+  }
+  throw new Error(failures.join('; '));
 }
 
 function toPost(item: any): Post | null {
