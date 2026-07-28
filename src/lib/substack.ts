@@ -74,44 +74,25 @@ async function fetchPosts(): Promise<Post[]> {
 }
 
 /**
- * Slugs of posts carrying SUBSTACK_TAG, read from the JSON API.
- * Substack's RSS feed drops post tags, but the API keeps them, keyed by the
- * same slug used in the RSS post links — so we can filter the feed by slug.
+ * Slugs of posts carrying SUBSTACK_TAG, scraped from the publication's tag page.
+ * Substack's RSS feed drops post tags, and its JSON API — which keeps them —
+ * answers the Worker proxy's shared Cloudflare IPs with 429s. The tag page is
+ * plain HTML and proxies fine, and its links use the same slug as the RSS feed.
  * Throws on failure so the caller can fail closed (empty blog) rather than
  * leaking untagged posts.
  */
 async function fetchTaggedSlugs(): Promise<Set<string>> {
   const tag = SUBSTACK_TAG.toLowerCase();
-  const list = await fetchTaggedPostList();
-  const slugs = new Set<string>();
-  for (const p of list) {
-    const tags: any[] = Array.isArray(p?.postTags) ? p.postTags : [];
-    if (p?.slug && tags.some(t => String(t?.name).toLowerCase() === tag)) {
-      slugs.add(String(p.slug));
-    }
-  }
+  const res = await fetch(`${SUBSTACK_FETCH_BASE}/t/${tag}`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
+  if (!res.ok) throw new Error(`tag page returned ${res.status}`);
+  const html = await res.text();
+  // Match only post-preview links, so recommendations elsewhere on the page
+  // can't pull untagged posts in. Substack paginates past ~12 posts; beyond
+  // that the older ones would need the API again.
+  const links = html.matchAll(/<a[^>]+href="[^"]*\/p\/([a-z0-9-]+)"[^>]*data-testid="post-preview-title"/g);
+  const slugs = new Set<string>([...links].map(m => m[1]!));
+  if (slugs.size === 0) throw new Error('tag page listed no posts');
   return slugs;
-}
-
-/**
- * Post list carrying `postTags`. Two Substack endpoints expose it, but the
- * Worker proxy is rate-limited (429) on /api/v1/posts, so try /api/v1/archive
- * first and keep the other as a fallback for direct (local) builds.
- */
-async function fetchTaggedPostList(): Promise<any[]> {
-  const paths = ['/api/v1/archive?sort=new&limit=50', '/api/v1/posts?limit=50'];
-  const failures: string[] = [];
-  for (const path of paths) {
-    const res = await fetch(`${SUBSTACK_FETCH_BASE}${path}`, { redirect: 'follow', signal: AbortSignal.timeout(15_000) });
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data)) return data;
-      failures.push(`${path} returned a non-array body`);
-    } else {
-      failures.push(`${path} returned ${res.status}`);
-    }
-  }
-  throw new Error(failures.join('; '));
 }
 
 function toPost(item: any): Post | null {
