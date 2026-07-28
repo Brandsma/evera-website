@@ -21,7 +21,13 @@ export default {
     }
 
     const upstream = await fetch(`${UPSTREAM}${url.pathname}${url.search}`, {
-      headers: { accept: request.headers.get('accept') ?? '*/*' },
+      headers: {
+        accept: request.headers.get('accept') ?? '*/*',
+        // Substack 429s bare programmatic requests to its HTML pages from
+        // Cloudflare's shared egress; a normal browser signature gets through.
+        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+        'accept-language': 'en-US,en;q=0.9',
+      },
       // Cache successes briefly so repeat builds are cheap, but never cache a
       // failure: Substack rate-limits its JSON API from Cloudflare's shared IPs
       // intermittently, and a cached 429 would block builds for the whole TTL.
