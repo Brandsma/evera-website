@@ -19,9 +19,8 @@ export const WEB3FORMS_ACCESS_KEY = '9e2fb18e-53de-4cea-8dbd-76e2355b3d81';
 
 export const CONTACT_EMAIL = 'michelle@everamovement.com';
 
-// Social links shown in the portfolio section. '#' = not yet available.
+// Social links shown in the portfolio section.
 export const SOCIAL_LINKS = [
   { name: 'Substack', url: SUBSTACK_URL },
-  { name: 'Instagram', url: '#' },
-  { name: 'YouTube', url: '#' },
+  { name: 'Instagram', url: 'https://www.instagram.com/yun.ki.michelle/' },
 ];
